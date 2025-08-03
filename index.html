@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rclient - DDrace Client</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #2d2d2d;
+            --accent-color: #3498db;
+            --text-color: #ffffff;
+            --text-muted: #b3b3b3;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-color);
+            padding: 150px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+        .feature-card {
+            border: none;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: var(--secondary-color);
+            overflow: hidden;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        .feature-card .card-body {
+            padding: 2rem;
+        }
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-color), #2980b9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+        .download-section {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            padding: 100px 0;
+            position: relative;
+        }
+        .btn-download {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .btn-download:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-color), #2980b9);
+            border: none;
+        }
+        .screenshots {
+            padding: 80px 0;
+            background: var(--primary-color);
+        }
+        .screenshot-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+        }
+        .screenshot-card:hover {
+            transform: scale(1.02);
+        }
+        .screenshot-card img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.4s ease;
+        }
+        .screenshot-card:hover img {
+            transform: scale(1.05);
+        }
+        .installation-steps {
+            background: var(--secondary-color);
+            padding: 80px 0;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--primary-color);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        .step:hover {
+            transform: translateX(10px);
+        }
+        .footer {
+            background: #000000;
+            color: var(--text-color);
+            padding: 60px 0 30px;
+        }
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+        .section-heading {
+            color: var(--accent-color);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .feature-heading {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .feature-text {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(26, 26, 26, 0.98);
+            padding: 8px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            display: flex;
+            gap: 7px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+        .language-switcher .btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-color);
+            padding: 8px 16px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border-radius: 50px;
+            min-width: 50px;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        .language-switcher .btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1.5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .language-switcher .btn.active {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="btn" onclick="changeLanguage('en')" id="lang-en">EN</button>
+        <button class="btn" onclick="changeLanguage('ru')" id="lang-ru">RU</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero text-center">
+        <div class="container">
+            <h1 class="display-3 mb-4 fw-bold" data-i18n="hero.title">Rclient for DDrace</h1>
+            <p class="lead fs-4 mb-5" data-i18n="hero.subtitle">Experience DDrace like never before with enhanced features and customization. Based on Tater Client with additional features from Pulse Client.</p>
+            <a href="#download" class="btn btn-light btn-lg px-5 py-3 rounded-pill" data-i18n="hero.button">Download</a>
+            <a href="https://discord.gg/wUFTVAGVGa" class="btn btn-primary btn-lg px-5 py-3 rounded-pill ms-3" target="_blank">
+                <i class="fab fa-discord me-2"></i>Discord
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5 display-5 fw-bold section-heading" data-i18n="client_features.title">Client Features</h2>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <h3 class="h4 mb-3" data-i18n="features.performance.title">Performance</h3>
+                            <p class="text-muted" data-i18n="features.performance.description">Optimized performance with reduced lag and improved FPS for the smoothest gaming experience</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <h3 class="h4 mb-3" data-i18n="features.customization.title">Customization</h3>
+                            <p class="text-muted" data-i18n="features.customization.description">Extensive customization options for UI, controls, and graphics to match your style</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <h3 class="h4 mb-3" data-i18n="features.gameplay.title">Gameplay</h3>
+                            <p class="text-muted" data-i18n="features.gameplay.description">Enhanced gameplay features and quality of life improvements for better gaming</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3 class="h4 mb-3" data-i18n="about.tater.title">Tater Client Base</h3>
+                            <p class="text-muted" data-i18n="about.tater.description">It is based on the Tater client, using its features to achieve optimal performance and to better interact with the game.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3 class="h4 mb-3" data-i18n="about.pulse.title">Pulse Client Features</h3>
+                            <p class="text-muted" data-i18n="about.pulse.description">Improved some features from Pulse Client.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </div>
+                            <h3 class="h4 mb-3" data-i18n="about.rclient.title">Rclient Features</h3>
+                            <p class="text-muted" data-i18n="about.rclient.description">Adds its own unique features and improvements to enhance the gaming experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Functionality List Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card feature-card">
+                        <div class="card-body">
+                            <h3 class="h4 mb-4 text-center feature-heading" data-i18n="client_features.available">Available Features</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.find_skins">Find/Copy skins</span></li>
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.find_player">Find/Copy player</span></li>
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.auto_clan">Auto change clan</span></li>
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.heart_size">Change friend heart size</span></li>
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.search_hours">Search hours</span></li>
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.snap_tap">Snap tap</span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.block_words">Blocking words</span></li>
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.milliseconds">Show milliseconds</span></li>
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.better_lasers">Better lasers(Pulse Client)</span></li>
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.menu_scoreboard">Menu in scoreboard(Pulse Client)</span></li>
+                                        <li class="mb-3 feature-text"><i class="fas fa-check text-success me-2"></i><span data-i18n="client_features.track_players">Track players</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Steps -->
+    <section class="installation-steps">
+        <div class="container">
+            <h2 class="text-center mb-5 display-5 fw-bold" data-i18n="installation.title">How to Install</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="step" data-aos="fade-right">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h4 data-i18n="installation.step1.title">Download Rclient</h4>
+                            <p class="text-muted mb-0" data-i18n="installation.step1.description">Click the download button below to get the latest version of Rclient</p>
+                        </div>
+                    </div>
+                    <div class="step" data-aos="fade-right" data-aos-delay="100">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h4 data-i18n="installation.step2.title">Replace Files</h4>
+                            <p class="text-muted mb-0" data-i18n="installation.step2.description">Replace the downloaded EXE file to your DDrace folder</p>
+                        </div>
+                    </div>
+                    <div class="step" data-aos="fade-right" data-aos-delay="200">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4 data-i18n="installation.step3.title">Run the Game</h4>
+                            <p class="text-muted mb-0" data-i18n="installation.step3.description">Launch DDrace and enjoy the enhanced experience!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots">
+        <div class="container">
+            <h2 class="text-center mb-5 display-5 fw-bold" data-i18n="screenshots.title">Screenshots</h2>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up">
+                    <div class="screenshot-card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#screenshotModal1">
+                        <img src="static/images/screenshot1.png" alt="Rclient Screenshot 1 - Main Interface">
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="screenshot-card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#screenshotModal2">
+                        <img src="static/images/screenshot2.png" alt="Rclient Screenshot 2 - Customization Options">
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="screenshot-card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#screenshotModal3">
+                        <img src="static/images/screenshot3.png" alt="Rclient Screenshot 3 - Gameplay Features">
+                    </div>
+                </div>
+                <!-- Fourth screenshot centered below -->
+                <div class="col-md-4 offset-md-4 mt-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="screenshot-card" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#screenshotModal4">
+                        <img src="static/images/screenshot4.png" alt="Rclient Screenshot 4 - Additional Features">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshot Modals -->
+    <div class="modal fade" id="screenshotModal1" tabindex="-1" aria-labelledby="screenshotModalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-dark">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <img src="static/images/screenshot1.png" class="img-fluid" alt="Rclient Screenshot 1 - Main Interface">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="screenshotModal2" tabindex="-1" aria-labelledby="screenshotModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-dark">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <img src="static/images/screenshot2.png" class="img-fluid" alt="Rclient Screenshot 2 - Customization Options">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="screenshotModal3" tabindex="-1" aria-labelledby="screenshotModalLabel3" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-dark">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <img src="static/images/screenshot3.png" class="img-fluid" alt="Rclient Screenshot 3 - Gameplay Features">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fourth Screenshot Modal -->
+    <div class="modal fade" id="screenshotModal4" tabindex="-1" aria-labelledby="screenshotModalLabel4" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-dark">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <img src="static/images/screenshot4.png" class="img-fluid" alt="Rclient Screenshot 4 - Additional Features">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Section -->
+    <section class="download-section" id="download">
+        <div class="container text-center">
+            <h2 class="display-5 fw-bold mb-4" data-i18n="download.title">Download Rclient</h2>
+            <p class="lead fs-4 mb-5" data-i18n="download.subtitle">Get started with the enhanced DDrace experience today</p>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="d-grid gap-4">
+                        <a href="static/DDNet.exe" class="btn btn-primary btn-download" download>
+                            <i class="fab fa-windows me-2"></i><span data-i18n="download.button">Download for Windows</span>
+                        </a>
+                        <a href="https://github.com/1Voix1/RushieClient-ddnet-public/releases" class="btn btn-outline-light btn-download ms-2" target="_blank" data-i18n="download.history">Version History</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-4 mb-md-0">
+                    <h3 class="h4 mb-3">Rclient</h3>
+                    <p class="text-muted" data-i18n="footer.description">Enhanced gaming experience for DDrace players</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0" data-i18n="footer.copyright">© 2024 Rclient. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Language translations
+        const translations = {
+            en: {
+                'hero.title': 'Rclient for DDrace',
+                'hero.subtitle': 'Experience DDrace like never before with enhanced features and customization. Based on Tater Client with additional features from Pulse Client.',
+                'hero.button': 'Download',
+                'hero.discord': 'Discord',
+                'about.title': 'About Rclient',
+                'about.description': 'Rclient is based on Tater Client, including some features from Pulse Client.',
+                'about.tater.title': 'Tater Client Base',
+                'about.tater.description': 'It is based on the Tater client, using its features to achieve optimal performance and to better interact with the game.',
+                'about.rclient.title': 'Rclient Features',
+                'about.rclient.description': 'Adds its own unique features and improvements to enhance the gaming experience.',
+                'about.pulse.title': 'Pulse Client Features',
+                'about.pulse.description': 'Improved some features from Pulse Client.',
+                'features.title': 'Key Features',
+                'features.performance.title': 'Performance',
+                'features.performance.description': 'Optimized performance with reduced lag and improved FPS for the smoothest gaming experience',
+                'features.customization.title': 'Customization',
+                'features.customization.description': 'Extensive customization options for UI, controls, and graphics to match your style',
+                'features.gameplay.title': 'Gameplay',
+                'features.gameplay.description': 'Enhanced gameplay features and quality of life improvements for better gaming',
+                'installation.title': 'How to Install',
+                'installation.step1.title': 'Download Rclient',
+                'installation.step1.description': 'Click the download button below to get the latest version of Rclient',
+                'installation.step2.title': 'Replace Files',
+                'installation.step2.description': 'Replace the downloaded EXE file to your DDrace folder',
+                'installation.step3.title': 'Run the Game',
+                'installation.step3.description': 'Launch DDrace and enjoy the enhanced experience!',
+                'download.title': 'Download Rclient',
+                'download.subtitle': 'Get started with the enhanced DDrace experience today',
+                'download.button': 'Download for Windows',
+                'footer.description': 'Enhanced gaming experience for DDrace players',
+                'footer.copyright': '© 2024 Rclient. All rights reserved.',
+                'client_features.title': 'Client Features',
+                'client_features.available': 'Available Features',
+                'client_features.find_skins': 'Find/Copy skins',
+                'client_features.find_player': 'Find/Copy player',
+                'client_features.auto_clan': 'Auto change clan',
+                'client_features.heart_size': 'Change friend heart size',
+                'client_features.search_hours': 'Search hours',
+                'client_features.snap_tap': 'Snap tap',
+                'client_features.block_words': 'Blocking words',
+                'client_features.milliseconds': 'Show milliseconds',
+                'client_features.better_lasers': 'Better lasers(Pulse Client)',
+                'client_features.menu_scoreboard': 'Menu in scoreboard(Pulse Client)',
+                'client_features.track_players': 'Track players',
+                'screenshots.title': 'Screenshots',
+                'download.history': 'All Releases'
+            },
+            ru: {
+                'hero.title': 'Rclient для DDrace',
+                'hero.subtitle': 'Испытайте DDrace как никогда раньше с улучшенными функциями и настройками. Основан на Tater Client с дополнительными функциями из Pulse Client.',
+                'hero.button': 'Скачать',
+                'hero.discord': 'Дискорд',
+                'about.title': 'Что такое Rclient',
+                'about.description': 'Rclient основан на Tater Client, включая некоторые функции Pulse Client.',
+                'about.tater.title': 'Основа Tater Client',
+                'about.tater.description': 'Основан на клиенте Tater, используя его функции для достижения оптимальной производительности и для лучшего взаимодействия с игрой.',
+                'about.rclient.title': 'Функции Rclient',
+                'about.rclient.description': 'Добавляет свои уникальные функции и улучшения для повышения игрового опыта.',
+                'about.pulse.title': 'Функции Pulse Client',
+                'about.pulse.description': 'Улучшен некоторыми функциями из Pulse Client.',
+                'features.title': 'Ключевые особенности',
+                'features.performance.title': 'Производительность',
+                'features.performance.description': 'Оптимизированная производительность с уменьшенной задержкой и улучшенным FPS для максимально плавного игрового процесса',
+                'features.customization.title': 'Настройка',
+                'features.customization.description': 'Обширные возможности настройки интерфейса, управления и графики в соответствии с вашим стилем',
+                'features.gameplay.title': 'Игровой процесс',
+                'features.gameplay.description': 'Улучшенные игровые функции и улучшения качества жизни для лучшей игры',
+                'installation.title': 'Как установить',
+                'installation.step1.title': 'Скачать Rclient',
+                'installation.step1.description': 'Нажмите кнопку скачивания ниже, чтобы получить последнюю версию Rclient',
+                'installation.step2.title': 'Заменить файлы',
+                'installation.step2.description': 'Замените скачанный EXE файл в вашей папке DDrace',
+                'installation.step3.title': 'Запустить игру',
+                'installation.step3.description': 'Запустите DDrace и наслаждайтесь улучшенным опытом!',
+                'download.title': 'Скачать Rclient',
+                'download.subtitle': 'Начните использовать улучшенный DDrace уже сегодня',
+                'download.button': 'Скачать для Windows',
+                'footer.description': 'Улучшенный игровой опыт для игроков DDrace',
+                'footer.copyright': '© 2024 Rclient. Все права защищены.',
+                'client_features.title': 'Функции клиента',
+                'client_features.available': 'Доступные функции',
+                'client_features.find_skins': 'Поиск/Копирование скинов',
+                'client_features.find_player': 'Поиск/Копирование игрока',
+                'client_features.auto_clan': 'Авто смена клана',
+                'client_features.heart_size': 'Изменение размера сердечка друга',
+                'client_features.search_hours': 'Поиск часов',
+                'client_features.snap_tap': 'Снап тап',
+                'client_features.block_words': 'Блокировка слов',
+                'client_features.milliseconds': 'Показ миллисекунд',
+                'client_features.better_lasers': 'Улучшенные лазеры(Pulse Client)',
+                'client_features.menu_scoreboard': 'Меню в таблице лидеров(Pulse Client)',
+                'client_features.track_players': 'Отслеживание игроков',
+                'screenshots.title': 'Скриншоты',
+                'download.history': 'Все релизы'
+            }
+        };
+
+        // Function to change language
+        function changeLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Update active state of language buttons
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-ru').classList.toggle('active', lang === 'ru');
+
+            // Save language preference
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Set initial language based on saved preference or default to English
+        const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+        changeLanguage(savedLanguage);
+    </script>
+</body>
+</html>

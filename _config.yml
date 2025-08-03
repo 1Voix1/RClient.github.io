@@ -1,0 +1,50 @@
+# GitHub Pages Configuration
+title: "Rclient - Enhanced DDrace Client"
+description: "Experience DDrace like never before with enhanced features and customization. Based on Tater Client with additional features from Pulse Client."
+url: ""
+baseurl: ""
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Exclude files from processing
+exclude:
+  - app.py
+  - version.py
+  - version.txt
+  - venv/
+  - __pycache__/
+  - "*.pyc"
+  - README.md
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+
+# Include files that start with underscores
+include:
+  - _config.yml
+
+# Site settings
+lang: en
+author: "Rclient Team"
+email: ""
+
+# Social links
+github_username: "1Voix1"
+discord_invite: "wUFTVAGVGa"
+
+# SEO
+google_analytics: ""
+google_site_verification: ""
+
+# Theme
+theme: ""
+remote_theme: ""
